@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace ProjetGestion
 {
-    public partial class Form1 : Form
+    public partial class Connection : Form
     {
-        public Form1()
+        public Connection()
         {
             InitializeComponent();
+        }
+
+        private void labLogin_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
