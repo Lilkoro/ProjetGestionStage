@@ -17,29 +17,25 @@ namespace ProjetGestion
             InitializeComponent();
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Sélectionnez un fichier";
+            openFileDialog.Filter = "Fichiers PDF (*.pdf)|*.pdf|Tous les fichiers (*.*)|*.*";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string cheminFichier = openFileDialog.FileName;
+                MessageBox.Show("Fichier sélectionné : " + cheminFichier);
+            }
 
         }
 
-        private void label5_Click(object sender, EventArgs e)
+        private void btnBack_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Modification_Load(object sender, EventArgs e)
-        {
-
+            this.Hide();
+            AccueilElv accueil = new AccueilElv();
+            accueil.ShowDialog();
         }
     }
 }

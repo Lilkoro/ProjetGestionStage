@@ -30,6 +30,10 @@
         {
             this.labLogin = new System.Windows.Forms.Label();
             this.labPass = new System.Windows.Forms.Label();
+            this.txtLog = new System.Windows.Forms.TextBox();
+            this.txtMdp = new System.Windows.Forms.TextBox();
+            this.btnConn = new System.Windows.Forms.Button();
+            this.erreurs = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labLogin
@@ -41,7 +45,6 @@
             this.labLogin.Size = new System.Drawing.Size(130, 24);
             this.labLogin.TabIndex = 0;
             this.labLogin.Text = "Identifiant : ";
-            this.labLogin.Click += new System.EventHandler(this.labLogin_Click);
             // 
             // labPass
             // 
@@ -53,11 +56,51 @@
             this.labPass.TabIndex = 1;
             this.labPass.Text = "Mot de passe : ";
             // 
+            // txtLog
+            // 
+            this.txtLog.Location = new System.Drawing.Point(332, 153);
+            this.txtLog.Name = "txtLog";
+            this.txtLog.Size = new System.Drawing.Size(100, 20);
+            this.txtLog.TabIndex = 2;
+            // 
+            // txtMdp
+            // 
+            this.txtMdp.Location = new System.Drawing.Point(332, 235);
+            this.txtMdp.Name = "txtMdp";
+            this.txtMdp.PasswordChar = '*';
+            this.txtMdp.Size = new System.Drawing.Size(100, 20);
+            this.txtMdp.TabIndex = 3;
+            this.txtMdp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMdp_KeyPress);
+            // 
+            // btnConn
+            // 
+            this.btnConn.Location = new System.Drawing.Point(344, 288);
+            this.btnConn.Name = "btnConn";
+            this.btnConn.Size = new System.Drawing.Size(75, 23);
+            this.btnConn.TabIndex = 4;
+            this.btnConn.Text = "Connexion";
+            this.btnConn.UseVisualStyleBackColor = true;
+            this.btnConn.Click += new System.EventHandler(this.btnConn_Click);
+            // 
+            // erreurs
+            // 
+            this.erreurs.AutoSize = true;
+            this.erreurs.Location = new System.Drawing.Point(254, 338);
+            this.erreurs.Name = "erreurs";
+            this.erreurs.Size = new System.Drawing.Size(270, 13);
+            this.erreurs.TabIndex = 5;
+            this.erreurs.Text = "Vous avez entré un mauvais identifiant ou mot de passe";
+            this.erreurs.Visible = false;
+            // 
             // Connection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.erreurs);
+            this.Controls.Add(this.btnConn);
+            this.Controls.Add(this.txtMdp);
+            this.Controls.Add(this.txtLog);
             this.Controls.Add(this.labPass);
             this.Controls.Add(this.labLogin);
             this.Name = "Connection";
@@ -71,6 +114,10 @@
 
         private System.Windows.Forms.Label labLogin;
         private System.Windows.Forms.Label labPass;
+        private System.Windows.Forms.TextBox txtLog;
+        private System.Windows.Forms.TextBox txtMdp;
+        private System.Windows.Forms.Button btnConn;
+        private System.Windows.Forms.Label erreurs;
     }
 }
 
