@@ -23,17 +23,21 @@ namespace ProjetGestion
     public class API
     {
         // Création d'un connecteur, une requête SQL pour récupérer les utilisateurs pouvant se connecter, passage des info dans les Objets.
-        readonly string connectionString = "Server=localhost;Port=3306;Database=gestionstage;Uid=root;Pwd=";
-        readonly string selectUsers = "SELECT * FROM compte";
+        static string connectionString = "Server=localhost;Port=3306;Database=gestionstage;Uid=root;Pwd=";
+        static string selectUsers = "SELECT * FROM compte";
+        static MySqlConnection conn = new MySqlConnection(connectionString);
         // Déclaration de la liste d'utilisateurs en public
         public List<User> users { get; private set; } = new List<User>();
         public List<Entreprise> Entreprises { get; private set;} = new List<Entreprise>();
 
+        public MySqlConnection getConnection()
+        {
+            return conn;
+        }
         public List<User> GetUsersFromDatabase()
         {
             try
             {
-                MySqlConnection conn = new MySqlConnection(connectionString);
                 MySqlCommand command = new MySqlCommand(selectUsers, conn);
                 conn.Open();
 
@@ -63,7 +67,6 @@ namespace ProjetGestion
             try
             {
                 string selectUsers = "SELECT * FROM compte where id = " + SessionId;
-                MySqlConnection conn = new MySqlConnection(connectionString);
                 MySqlCommand command = new MySqlCommand(selectUsers, conn);
                 conn.Open();
 
@@ -76,6 +79,7 @@ namespace ProjetGestion
                     string login = reader["login"].ToString();
                     string password = reader["password"].ToString();
                     string picPath = reader["profilPath"].ToString();
+                    Console.WriteLine("=====================>" + picPath);
 
                     users.Add(new User { Id = id, Login = login, Password = password, profilPic = picPath });
                 }

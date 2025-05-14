@@ -26,30 +26,19 @@ namespace ProjetGestion
             List<User> users = sqlConf.GetUsersFromDatabase();
             string log = txtLog.Text;
             string pass = txtMdp.Text;
-            int id = 0;
-            bool isValid = false;
 
             foreach (var user in users)
             {
                 if (user.Login == log && user.Password == pass)
                 { 
-                    id = user.Id;
-                    isValid = true;
+                    Session.IdUtilisateur = user.Id;
+                    Session.pathUtilisateur = user.profilPic;
+                    accueil.Show();
+                    this.Hide();
                     break;  // On peut arrêter la boucle si on a trouvé une correspondance
                 }
             }
 
-            if (isValid)
-            {
-                Session.IdUtilisateur = id;
-                erreurs.Hide();
-                accueil.Show();
-                this.Hide();
-            }
-            else
-            {
-                erreurs.Show();
-            }
         }
 
         private void txtMdp_KeyPress(object sender, KeyPressEventArgs e)
@@ -63,6 +52,10 @@ namespace ProjetGestion
     public static class Session
     {
         public static int IdUtilisateur { get; set; }
-        // Tu peux ajouter d’autres propriétés utiles : rôle, nom complet, etc.
+        public static string pathUtilisateur { get; set; }
+        public static void resetUser()
+        {
+            Session.IdUtilisateur = 0;
+        }
     }
 }

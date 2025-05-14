@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace ProjetGestion
 {
@@ -36,6 +37,27 @@ namespace ProjetGestion
             this.Hide();
             AccueilElv accueil = new AccueilElv();
             accueil.ShowDialog();
+        }
+
+        private void Modification_Load(object sender, EventArgs e)
+        {
+            API sql = new API();
+            int id = Session.IdUtilisateur;
+            MySqlConnection conn = sql.getConnection();
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand(null, conn);
+            cmd.CommandText = "Select * FROM eleve where idCpt = @id";
+            MySqlParameter idParam = new MySqlParameter("@id", MySqlDbType.Int32, 0);
+            cmd.Parameters.Add(idParam);
+            cmd.Prepare();
+            cmd.Parameters[0].Value = id; 
+            MySqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                txtNom.Text = reader["nomElv"].ToString();
+            }
+            reader.Close();
+            conn.Close();
         }
     }
 }

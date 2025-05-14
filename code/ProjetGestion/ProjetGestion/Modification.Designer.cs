@@ -148,7 +148,7 @@
             this.txtPortfolio.Name = "txtPortfolio";
             this.txtPortfolio.Size = new System.Drawing.Size(100, 20);
             this.txtPortfolio.TabIndex = 10;
-            this.txtPortfolio.Text = "Liens...";
+            this.txtPortfolio.Text = "Liens Portfolio...";
             // 
             // labEntre
             // 
@@ -311,6 +311,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Modification";
             this.Text = "Modification";
+            this.Load += new System.EventHandler(this.Modification_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
