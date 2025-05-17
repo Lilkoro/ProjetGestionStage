@@ -13,7 +13,7 @@ namespace ProjetGestion
 {
     public partial class Connection : Form
     {
-        API sqlConf = new API();
+        API api = new API();
         AccueilElv accueil = new AccueilElv();
         public Connection()
         {
@@ -23,7 +23,7 @@ namespace ProjetGestion
         private void btnConn_Click(object sender, EventArgs e)
         {
             // Récupérer les utilisateurs à partir de sqlConf
-            List<User> users = sqlConf.GetUsersFromDatabase();
+            List<User> users = api.GetUsersFromDatabase();
             string log = txtLog.Text;
             string pass = txtMdp.Text;
 
@@ -34,8 +34,12 @@ namespace ProjetGestion
                     Session.IdUtilisateur = user.Id;
                     Session.pathUtilisateur = user.profilPic;
                     accueil.Show();
+                    erreurs.Hide();
                     this.Hide();
                     break;  // On peut arrêter la boucle si on a trouvé une correspondance
+                } else
+                {
+                    erreurs.Show();
                 }
             }
 
@@ -49,13 +53,5 @@ namespace ProjetGestion
             }
         }
     }
-    public static class Session
-    {
-        public static int IdUtilisateur { get; set; }
-        public static string pathUtilisateur { get; set; }
-        public static void resetUser()
-        {
-            Session.IdUtilisateur = 0;
-        }
-    }
+
 }

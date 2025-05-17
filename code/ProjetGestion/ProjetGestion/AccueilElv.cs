@@ -19,10 +19,22 @@ namespace ProjetGestion
 
         private void AccueilElv_Load(object sender, EventArgs e)
         {
-            API sqlconf = new API();
+            API api = new API();
             string path = Session.pathUtilisateur;
             Bitmap image = new Bitmap(path);
             pictureBox1.Image = image;
+            List<infoElv> studentInfo = api.GetCurrentStudentInfo(Session.IdUtilisateur);
+            if (studentInfo != null && studentInfo.Count > 0)
+            {
+                foreach (infoElv student in studentInfo)
+                {
+                    labInfo.Text = student.Nom + " " + student.Prenom;
+                }
+            }
+            else
+            {
+                labInfo.Text = "Aucune information trouvée.";
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -38,6 +50,11 @@ namespace ProjetGestion
             Session.resetUser();
             this.Hide();
             conForm.ShowDialog();
+
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
 
         }
     }
