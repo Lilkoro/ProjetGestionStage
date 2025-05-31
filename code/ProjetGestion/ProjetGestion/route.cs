@@ -7,6 +7,18 @@ using System.Threading.Tasks;
 
 namespace ProjetGestion
 {
+
+    public class StageAPourvoir
+    {
+        public int IdStage { get; set; }
+        public string Titre { get; set; }
+        public string Description { get; set; }
+        public string Lieu { get; set; }
+        public DateTime DateDebut { get; set; }
+        public int DureeSemaines { get; set; }
+        public int IdEtp { get; set; }
+    }
+
     public class Entreprise
     {
         public int Id { get; set; }
@@ -279,6 +291,41 @@ namespace ProjetGestion
                                 DateTime DateFin = reader.GetDateTime("dateFin");
                                 stages.Add(new Stages { IdStage = IdStage, NomTuteur = NomTuteur,NomEntreprise = NomEntreprise, NomProf = NomProf, NomPoste = NomPoste, DateDebut = DateDebut, DateFin = DateFin});
                             }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return stages;
+        }
+        public List<StageAPourvoir> GetStagesPourvoir()
+        {
+            List<StageAPourvoir> stages = new List<StageAPourvoir>();
+            try
+            {
+                using (MySqlConnection conn = getConnection())
+                {
+                    conn.Open();
+                    string query = "SELECT * FROM stagesapourvoir";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            StageAPourvoir stage = new StageAPourvoir
+                            {
+                                IdStage = reader.GetInt32("idStage"),
+                                Titre = reader["titre"].ToString(),
+                                Description = reader["description"].ToString(),
+                                Lieu = reader.IsDBNull(reader.GetOrdinal("lieu")) ? "" : reader["lieu"].ToString(),
+                                DateDebut = reader.GetDateTime("dateDebut"),
+                                DureeSemaines = reader.GetInt32("dureeSemaines"),
+                                IdEtp = reader.GetInt32("idEtp")
+                            };
+                            stages.Add(stage);
                         }
                     }
                 }
