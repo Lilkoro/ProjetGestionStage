@@ -41,7 +41,6 @@
             this.txtPortfolio = new System.Windows.Forms.TextBox();
             this.labEntre = new System.Windows.Forms.Label();
             this.txtPoste = new System.Windows.Forms.TextBox();
-            this.labSect = new System.Windows.Forms.Label();
             this.labPoste = new System.Windows.Forms.Label();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.radioSite = new System.Windows.Forms.RadioButton();
@@ -55,7 +54,6 @@
             this.txtAdr = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBoxSecOpt = new System.Windows.Forms.ComboBox();
-            this.txtTag = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -158,7 +156,7 @@
             // 
             this.labEntre.AutoSize = true;
             this.labEntre.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labEntre.Location = new System.Drawing.Point(627, 203);
+            this.labEntre.Location = new System.Drawing.Point(597, 268);
             this.labEntre.Name = "labEntre";
             this.labEntre.Size = new System.Drawing.Size(91, 18);
             this.labEntre.TabIndex = 12;
@@ -170,16 +168,6 @@
             this.txtPoste.Name = "txtPoste";
             this.txtPoste.Size = new System.Drawing.Size(100, 20);
             this.txtPoste.TabIndex = 14;
-            // 
-            // labSect
-            // 
-            this.labSect.AutoSize = true;
-            this.labSect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labSect.Location = new System.Drawing.Point(542, 261);
-            this.labSect.Name = "labSect";
-            this.labSect.Size = new System.Drawing.Size(79, 15);
-            this.labSect.TabIndex = 15;
-            this.labSect.Text = "Tag Secteur :";
             // 
             // labPoste
             // 
@@ -313,19 +301,11 @@
             this.comboBoxSecOpt.Size = new System.Drawing.Size(121, 21);
             this.comboBoxSecOpt.TabIndex = 29;
             // 
-            // txtTag
-            // 
-            this.txtTag.Location = new System.Drawing.Point(630, 260);
-            this.txtTag.Name = "txtTag";
-            this.txtTag.Size = new System.Drawing.Size(100, 20);
-            this.txtTag.TabIndex = 30;
-            // 
             // Modification
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.txtTag);
             this.Controls.Add(this.comboBoxSecOpt);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -338,7 +318,6 @@
             this.Controls.Add(this.radioSite);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.labPoste);
-            this.Controls.Add(this.labSect);
             this.Controls.Add(this.txtPoste);
             this.Controls.Add(this.labEntre);
             this.Controls.Add(this.txtPortfolio);
@@ -352,6 +331,8 @@
             this.Controls.Add(this.txtPrenom);
             this.Controls.Add(this.txtNom);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Modification";
             this.Text = "Modification";
             this.Load += new System.EventHandler(this.Modification_Load);
@@ -375,7 +356,6 @@
         private System.Windows.Forms.TextBox txtPortfolio;
         private System.Windows.Forms.Label labEntre;
         private System.Windows.Forms.TextBox txtPoste;
-        private System.Windows.Forms.Label labSect;
         private System.Windows.Forms.Label labPoste;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.RadioButton radioSite;
@@ -389,6 +369,5 @@
         private System.Windows.Forms.TextBox txtAdr;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBoxSecOpt;
-        private System.Windows.Forms.TextBox txtTag;
     }
 }

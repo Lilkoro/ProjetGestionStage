@@ -53,9 +53,11 @@ namespace ProjetGestion
 
         }
 
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        private void btnStaEff_Click(object sender, EventArgs e)
         {
-
+            StageEffectue stageEffectue = new StageEffectue();
+            this.Hide();
+            stageEffectue.ShowDialog();
         }
     }
 }

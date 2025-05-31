@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
 
 namespace ProjetGestion
 {
@@ -30,6 +32,27 @@ namespace ProjetGestion
             {
                 string cheminFichier = openFileDialog.FileName;
                 MessageBox.Show("Fichier sélectionné : " + cheminFichier);
+                try
+                {
+                    File.Copy(cheminFichier, "../../assets/CV.pdf", true);
+                    string updateQuery = "UPDATE eleve SET pathCV = '../../assets/CV.pdf' WHERE idElv = " + Session.IdUtilisateur;
+                    MySqlConnection conn = api.getConnection();
+                    using (conn)
+                    {
+                        conn.Open();
+                        using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn))
+                        {
+                            cmd.ExecuteNonQuery();
+                            MessageBox.Show("CV mis à jour avec succès !");
+                        }
+                        conn.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erreur " + ex);
+                    throw;
+                }
             }
 
         }
@@ -47,9 +70,11 @@ namespace ProjetGestion
             List<Specialite> specialites = api.GetSpecialites();
             List<infoElv> eleve = api.GetCurrentStudentInfo(Session.IdUtilisateur);
             List<lieuTravail> lieux = api.GetTravails();
+            comboBoxSecOpt.DisplayMember = "Nom";
+            comboBoxSecOpt.ValueMember = "Id";
             foreach (Specialite spe in specialites)
             {
-                comboBoxSecOpt.Items.Add(spe.Nom);
+                comboBoxSecOpt.Items.Add(spe);
             }
             txtPoste.Text = eleve[0].NomPoste;
         }
@@ -63,9 +88,9 @@ namespace ProjetGestion
             string mail = txtMail.Text.Trim();
             string tel = txtTel.Text.Trim();
             string adr = txtAdr.Text.Trim();
-            string specialite = comboBoxSecOpt.SelectedItem != null ? comboBoxSecOpt.SelectedItem.ToString() : "";
+            Specialite selectedSpe = comboBoxSecOpt.SelectedItem as Specialite;
+            string idSpecialite = selectedSpe != null && !string.IsNullOrEmpty(selectedSpe.Id) ? selectedSpe.Id : null;
             string portfolio = txtPortfolio.Text.Trim();
-            string tag = txtTag.Text.Trim();
             string poste = txtPoste.Text.Trim();
 
             // Vérification du format du numéro de téléphone
@@ -90,9 +115,8 @@ namespace ProjetGestion
             if (!string.IsNullOrEmpty(mail)) updates.Add("email = @mail");
             if (!string.IsNullOrEmpty(tel)) updates.Add("tel = @tel");
             if (!string.IsNullOrEmpty(adr)) updates.Add("rueElv = @adr");
-            if (!string.IsNullOrEmpty(specialite)) updates.Add("sectionOption = @specialite");
+            if (!string.IsNullOrEmpty(idSpecialite)) updates.Add("sectionOption = @sectionOption");
             if (!string.IsNullOrEmpty(portfolio)) updates.Add("urlPortfolio = @portfolio");
-            if (!string.IsNullOrEmpty(tag)) updates.Add("tags = @tag");
             if (!string.IsNullOrEmpty(poste)) updates.Add("nomPoste = @poste");
             if (!string.IsNullOrEmpty(modeTravail)) updates.Add("lieuTravail = @modeTravail");
 
@@ -116,9 +140,8 @@ namespace ProjetGestion
                         if (!string.IsNullOrEmpty(mail)) cmd.Parameters.AddWithValue("@mail", mail);
                         if (!string.IsNullOrEmpty(tel)) cmd.Parameters.AddWithValue("@tel", tel);
                         if (!string.IsNullOrEmpty(adr)) cmd.Parameters.AddWithValue("@adr", adr);
-                        if (!string.IsNullOrEmpty(specialite)) cmd.Parameters.AddWithValue("@specialite", specialite);
+                        if (!string.IsNullOrEmpty(idSpecialite)) cmd.Parameters.AddWithValue("@sectionOption", idSpecialite);
                         if (!string.IsNullOrEmpty(portfolio)) cmd.Parameters.AddWithValue("@portfolio", portfolio);
-                        if (!string.IsNullOrEmpty(tag)) cmd.Parameters.AddWithValue("@tag", tag);
                         if (!string.IsNullOrEmpty(poste)) cmd.Parameters.AddWithValue("@poste", poste);
                         if (!string.IsNullOrEmpty(modeTravail)) cmd.Parameters.AddWithValue("@modeTravail", modeTravail);
                         cmd.Parameters.AddWithValue("@idElv", Session.IdUtilisateur);

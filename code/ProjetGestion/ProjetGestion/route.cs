@@ -46,6 +46,7 @@ namespace ProjetGestion
 
     public class  Specialite
     {
+        public string Id { get; set; }
         public string Nom { get; set; }
     }
 
@@ -62,6 +63,18 @@ namespace ProjetGestion
         {
             Session.IdUtilisateur = 0;
         }
+    }
+
+    public class Stages
+    {
+        public  int IdStage { get; set; }
+        public string NomEntreprise { get; set; }
+        public string NomPoste { get; set; }
+        public string NomTuteur { get; set; }
+        public string NomProf { get; set; }
+        public DateTime DateDebut { get; set; }
+        public DateTime DateFin { get; set; }
+
     }
 
     public class API
@@ -184,7 +197,8 @@ namespace ProjetGestion
                 while (reader.Read())
                 {
                     string nom = reader["nom"].ToString();
-                    Specialite.Add(new Specialite { Nom = nom });
+                    string id = reader["id"].ToString();
+                    Specialite.Add(new Specialite { Id = id, Nom = nom });
                 }
                 reader.Close();
                 conn.Close();
@@ -217,6 +231,63 @@ namespace ProjetGestion
             }
             return lieuTravail;
 
+        }
+
+        public List<Stages> GetStagesByUser(int idUtilisateur)
+        {
+            List<Stages> stages = new List<Stages>();
+            try
+            {
+                using (MySqlConnection conn = getConnection())
+                {
+                    conn.Open();
+                    string query = @"
+                        SELECT 
+                            sh.idStage,
+                            e.nomEtp AS nomEntreprise,
+                            t.nomTut AS nomTut, 
+                            p.nomProf AS nomProf, 
+                            sh.dateDebut, 
+                            sh.dateFin, 
+                            sh.poste
+                        FROM stagehistoric sh
+                        INNER JOIN tuteur t ON sh.idTuteur = t.idTut
+                        INNER JOIN professeur p ON sh.idProf = p.idProf
+                        INNER JOIN entreprise e ON t.idEtp = e.idEtp
+                        WHERE sh.idElv = @idElv
+                        GROUP BY 
+                            sh.idStage,
+                            e.nomEtp,
+                            t.nomTut,
+                            p.nomProf,
+                            sh.dateDebut,
+                            sh.dateFin,
+                            sh.poste";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@idElv", idUtilisateur);
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int IdStage = reader.GetInt32("idStage");
+                                string NomTuteur = reader["nomTut"].ToString();
+                                string NomEntreprise = reader["nomEntreprise"].ToString();
+                                string NomProf = reader["nomProf"].ToString();
+                                string NomPoste = reader["poste"].ToString();
+                                DateTime DateDebut = reader.GetDateTime("dateDebut");
+                                DateTime DateFin = reader.GetDateTime("dateFin");
+                                stages.Add(new Stages { IdStage = IdStage, NomTuteur = NomTuteur,NomEntreprise = NomEntreprise, NomProf = NomProf, NomPoste = NomPoste, DateDebut = DateDebut, DateFin = DateFin});
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return stages;
         }
 
     }

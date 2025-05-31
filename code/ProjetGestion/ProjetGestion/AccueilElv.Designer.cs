@@ -89,11 +89,11 @@
             this.btnStaCo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(58)))), ((int)(((byte)(183)))));
             this.btnStaCo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStaCo.ForeColor = System.Drawing.Color.White;
-            this.btnStaCo.Location = new System.Drawing.Point(429, 175);
+            this.btnStaCo.Location = new System.Drawing.Point(419, 175);
             this.btnStaCo.Name = "btnStaCo";
             this.btnStaCo.Size = new System.Drawing.Size(167, 57);
             this.btnStaCo.TabIndex = 7;
-            this.btnStaCo.Text = "STAGE EN COURS";
+            this.btnStaCo.Text = "MES CANDIDATURES";
             this.btnStaCo.UseVisualStyleBackColor = false;
             // 
             // btnRech
@@ -119,6 +119,7 @@
             this.btnStaEff.TabIndex = 9;
             this.btnStaEff.Text = "STAGES EFFECTUES";
             this.btnStaEff.UseVisualStyleBackColor = false;
+            this.btnStaEff.Click += new System.EventHandler(this.btnStaEff_Click);
             // 
             // AccueilElv
             // 
@@ -132,6 +133,8 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.labInfo);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "AccueilElv";
             this.Text = "AccueilElv";
             this.Load += new System.EventHandler(this.AccueilElv_Load);
