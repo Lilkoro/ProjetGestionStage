@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le : sam. 31 mai 2025 à 17:57
--- Version du serveur : 8.3.0
--- Version de PHP : 8.2.18
+-- Hôte : 127.0.0.1
+-- Généré le : sam. 31 mai 2025 à 23:52
+-- Version du serveur : 10.4.32-MariaDB
+-- Version de PHP : 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,14 +27,12 @@ SET time_zone = "+00:00";
 -- Structure de la table `compte`
 --
 
-DROP TABLE IF EXISTS `compte`;
-CREATE TABLE IF NOT EXISTS `compte` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `compte` (
+  `id` int(11) NOT NULL,
   `login` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `profilPath` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+  `profilPath` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Déchargement des données de la table `compte`
@@ -69,27 +67,22 @@ INSERT INTO `compte` (`id`, `login`, `password`, `profilPath`) VALUES
 -- Structure de la table `eleve`
 --
 
-DROP TABLE IF EXISTS `eleve`;
-CREATE TABLE IF NOT EXISTS `eleve` (
-  `idElv` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `eleve` (
+  `idElv` int(11) NOT NULL,
   `nomElv` varchar(30) DEFAULT NULL,
   `prenomElv` varchar(30) DEFAULT NULL,
   `email` varchar(125) DEFAULT NULL,
-  `tel` int DEFAULT NULL,
+  `tel` int(10) DEFAULT NULL,
   `nomPoste` varchar(125) DEFAULT NULL,
-  `sectionOption` int DEFAULT NULL,
+  `sectionOption` int(100) DEFAULT NULL,
   `rueElv` varchar(120) DEFAULT NULL,
   `cpElv` varchar(5) DEFAULT NULL,
   `villeElv` varchar(20) DEFAULT NULL,
-  `idCpt` int DEFAULT NULL,
+  `idCpt` int(11) DEFAULT NULL,
   `urlPortfolio` varchar(120) DEFAULT NULL,
   `pathCV` varchar(150) DEFAULT NULL,
-  `lieuTravail` varchar(150) DEFAULT NULL,
-  PRIMARY KEY (`idElv`),
-  KEY `fk_compte` (`idCpt`),
-  KEY `fk_sectionOption` (`sectionOption`),
-  KEY `fk_lieuTravail` (`lieuTravail`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+  `lieuTravail` varchar(150) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Déchargement des données de la table `eleve`
@@ -123,9 +116,8 @@ INSERT INTO `eleve` (`idElv`, `nomElv`, `prenomElv`, `email`, `tel`, `nomPoste`,
 -- Structure de la table `entreprise`
 --
 
-DROP TABLE IF EXISTS `entreprise`;
-CREATE TABLE IF NOT EXISTS `entreprise` (
-  `idEtp` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `entreprise` (
+  `idEtp` int(11) NOT NULL,
   `nomEtp` varchar(50) DEFAULT NULL,
   `rueEtp` varchar(120) DEFAULT NULL,
   `cpEtp` varchar(5) DEFAULT NULL,
@@ -133,9 +125,8 @@ CREATE TABLE IF NOT EXISTS `entreprise` (
   `mailEtp` varchar(50) DEFAULT NULL,
   `telEtp` varchar(15) DEFAULT NULL,
   `activiteEtp` varchar(50) DEFAULT NULL,
-  `ImgEtp` text NOT NULL,
-  PRIMARY KEY (`idEtp`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+  `ImgEtp` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Déchargement des données de la table `entreprise`
@@ -155,12 +146,9 @@ INSERT INTO `entreprise` (`idEtp`, `nomEtp`, `rueEtp`, `cpEtp`, `villeEtp`, `mai
 -- Structure de la table `intervenir`
 --
 
-DROP TABLE IF EXISTS `intervenir`;
-CREATE TABLE IF NOT EXISTS `intervenir` (
-  `idProf` int NOT NULL,
-  `idClasse` int NOT NULL,
-  PRIMARY KEY (`idProf`,`idClasse`),
-  KEY `fk_IdClasse` (`idClasse`)
+CREATE TABLE `intervenir` (
+  `idProf` int(20) NOT NULL,
+  `idClasse` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -169,12 +157,12 @@ CREATE TABLE IF NOT EXISTS `intervenir` (
 
 INSERT INTO `intervenir` (`idProf`, `idClasse`) VALUES
 (1, 1),
-(3, 1),
 (1, 2),
-(4, 2),
 (2, 3),
 (2, 4),
-(3, 4);
+(3, 1),
+(3, 4),
+(4, 2);
 
 -- --------------------------------------------------------
 
@@ -182,11 +170,9 @@ INSERT INTO `intervenir` (`idProf`, `idClasse`) VALUES
 -- Structure de la table `lieutravail`
 --
 
-DROP TABLE IF EXISTS `lieutravail`;
-CREATE TABLE IF NOT EXISTS `lieutravail` (
-  `nom` varchar(150) NOT NULL,
-  PRIMARY KEY (`nom`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `lieutravail` (
+  `nom` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Déchargement des données de la table `lieutravail`
@@ -203,14 +189,12 @@ INSERT INTO `lieutravail` (`nom`) VALUES
 -- Structure de la table `professeur`
 --
 
-DROP TABLE IF EXISTS `professeur`;
-CREATE TABLE IF NOT EXISTS `professeur` (
-  `idProf` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `professeur` (
+  `idProf` int(11) NOT NULL,
   `nomProf` varchar(30) DEFAULT NULL,
   `prenomProf` varchar(30) DEFAULT NULL,
-  `matiereProf` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`idProf`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  `matiereProf` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Déchargement des données de la table `professeur`
@@ -234,12 +218,10 @@ INSERT INTO `professeur` (`idProf`, `nomProf`, `prenomProf`, `matiereProf`) VALU
 -- Structure de la table `specialite`
 --
 
-DROP TABLE IF EXISTS `specialite`;
-CREATE TABLE IF NOT EXISTS `specialite` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+CREATE TABLE `specialite` (
+  `id` int(11) NOT NULL,
+  `nom` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Déchargement des données de la table `specialite`
@@ -257,32 +239,28 @@ INSERT INTO `specialite` (`id`, `nom`) VALUES
 -- Structure de la table `stagehistoric`
 --
 
-DROP TABLE IF EXISTS `stagehistoric`;
-CREATE TABLE IF NOT EXISTS `stagehistoric` (
-  `idStage` int NOT NULL AUTO_INCREMENT,
-  `idElv` int NOT NULL,
-  `idTuteur` int NOT NULL,
-  `idProf` int NOT NULL,
+CREATE TABLE `stagehistoric` (
+  `idStage` int(11) NOT NULL,
+  `idElv` int(11) NOT NULL,
+  `idTuteur` int(11) NOT NULL,
+  `idProf` int(11) NOT NULL,
   `dateDebut` date NOT NULL,
   `dateFin` date NOT NULL,
-  `poste` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`idStage`),
-  KEY `fk_idElv` (`idElv`),
-  KEY `fk_idTuteur` (`idTuteur`),
-  KEY `idProf` (`idProf`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `poste` varchar(50) NOT NULL,
+  `etat` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `stagehistoric`
 --
 
-INSERT INTO `stagehistoric` (`idStage`, `idElv`, `idTuteur`, `idProf`, `dateDebut`, `dateFin`, `poste`) VALUES
-(1, 5, 3, 2, '2025-05-01', '2025-06-01', 'Developpeur FullStack Junior'),
-(2, 5, 1, 5, '2025-02-01', '2025-03-04', 'Developpeur back-end'),
-(3, 8, 6, 10, '2025-04-01', '2025-05-01', 'Commercial relation B2B'),
-(4, 13, 2, 5, '2025-04-01', '2025-05-01', 'Comptable Junior'),
-(5, 11, 4, 4, '2025-05-01', '2025-06-01', 'Administrateur réseaux'),
-(6, 9, 5, 3, '2025-01-01', '2025-02-01', 'Développeur moteur graphique');
+INSERT INTO `stagehistoric` (`idStage`, `idElv`, `idTuteur`, `idProf`, `dateDebut`, `dateFin`, `poste`, `etat`) VALUES
+(1, 5, 3, 2, '2025-05-01', '2025-06-01', 'Developpeur FullStack Junior', 0),
+(2, 5, 1, 5, '2025-02-01', '2025-03-04', 'Developpeur back-end', 1),
+(3, 8, 6, 10, '2025-04-01', '2025-05-01', 'Commercial relation B2B', 1),
+(4, 13, 2, 5, '2025-04-01', '2025-05-01', 'Comptable Junior', 1),
+(5, 11, 4, 4, '2025-05-01', '2025-06-01', 'Administrateur réseaux', 0),
+(6, 9, 5, 3, '2025-01-01', '2025-02-01', 'Développeur moteur graphique', 1);
 
 -- --------------------------------------------------------
 
@@ -290,18 +268,15 @@ INSERT INTO `stagehistoric` (`idStage`, `idElv`, `idTuteur`, `idProf`, `dateDebu
 -- Structure de la table `stagesapourvoir`
 --
 
-DROP TABLE IF EXISTS `stagesapourvoir`;
-CREATE TABLE IF NOT EXISTS `stagesapourvoir` (
-  `idStage` int NOT NULL AUTO_INCREMENT,
-  `titre` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `description` text COLLATE utf8mb4_general_ci NOT NULL,
-  `lieu` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+CREATE TABLE `stagesapourvoir` (
+  `idStage` int(11) NOT NULL,
+  `titre` varchar(100) NOT NULL,
+  `description` text NOT NULL,
+  `lieu` varchar(100) DEFAULT NULL,
   `dateDebut` date DEFAULT NULL,
-  `dureeSemaines` int DEFAULT NULL,
-  `idEtp` int DEFAULT NULL,
-  PRIMARY KEY (`idStage`),
-  KEY `idEtp` (`idEtp`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `dureeSemaines` int(11) DEFAULT NULL,
+  `idEtp` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `stagesapourvoir`
@@ -310,7 +285,9 @@ CREATE TABLE IF NOT EXISTS `stagesapourvoir` (
 INSERT INTO `stagesapourvoir` (`idStage`, `titre`, `description`, `lieu`, `dateDebut`, `dureeSemaines`, `idEtp`) VALUES
 (1, 'Développeur .NET Junior', 'Participation à un projet en C# avec Windows Forms.', 'Marseille', '2025-06-10', 6, 1),
 (2, 'Technicien Réseau', 'Configuration de routeurs/switchs en PME.', 'Aix-en-Provence', '2025-07-01', 8, 4),
-(3, 'Assistant Cybersécurité', 'Analyse des failles et tests de vulnérabilité.', 'Avignon', '2025-06-20', 5, 5);
+(3, 'Assistant Cybersécurité', 'Analyse des failles et tests de vulnérabilité.', 'Avignon', '2025-06-20', 5, 5),
+(4, 'Développeur Full-Stack', 'Création de la boutique en ligne', 'Paris 2eme', '2025-06-01', 3, 5),
+(5, 'Technicien support informatique', 'Aide au support ticket et réseaux', 'Ajaccio', '2025-06-08', 6, 2);
 
 -- --------------------------------------------------------
 
@@ -318,16 +295,13 @@ INSERT INTO `stagesapourvoir` (`idStage`, `titre`, `description`, `lieu`, `dateD
 -- Structure de la table `tuteur`
 --
 
-DROP TABLE IF EXISTS `tuteur`;
-CREATE TABLE IF NOT EXISTS `tuteur` (
-  `idTut` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tuteur` (
+  `idTut` int(11) NOT NULL,
   `nomTut` varchar(20) DEFAULT NULL,
   `prenomTut` varchar(20) DEFAULT NULL,
   `telTut` varchar(15) DEFAULT NULL,
-  `idEtp` int NOT NULL,
-  PRIMARY KEY (`idTut`),
-  KEY `idEtp` (`idEtp`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+  `idEtp` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Déchargement des données de la table `tuteur`
@@ -339,7 +313,133 @@ INSERT INTO `tuteur` (`idTut`, `nomTut`, `prenomTut`, `telTut`, `idEtp`) VALUES
 (3, 'Bayet', 'Alain', '0666589632', 5),
 (4, 'Gerster', 'Julien', '0666666666', 2),
 (5, 'Palazzolo', 'Bruno', '0728693122', 4),
-(6, 'Schicchi', 'Julien', '0663281632', 6);
+(6, 'Schicchi', 'Julien', '0663281632', 6),
+(7, 'Paoli', 'Pascal', '0719130394', 3);
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `compte`
+--
+ALTER TABLE `compte`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `eleve`
+--
+ALTER TABLE `eleve`
+  ADD PRIMARY KEY (`idElv`),
+  ADD KEY `fk_compte` (`idCpt`),
+  ADD KEY `fk_sectionOption` (`sectionOption`),
+  ADD KEY `fk_lieuTravail` (`lieuTravail`);
+
+--
+-- Index pour la table `entreprise`
+--
+ALTER TABLE `entreprise`
+  ADD PRIMARY KEY (`idEtp`);
+
+--
+-- Index pour la table `intervenir`
+--
+ALTER TABLE `intervenir`
+  ADD PRIMARY KEY (`idProf`,`idClasse`),
+  ADD KEY `fk_IdClasse` (`idClasse`);
+
+--
+-- Index pour la table `lieutravail`
+--
+ALTER TABLE `lieutravail`
+  ADD PRIMARY KEY (`nom`);
+
+--
+-- Index pour la table `professeur`
+--
+ALTER TABLE `professeur`
+  ADD PRIMARY KEY (`idProf`);
+
+--
+-- Index pour la table `specialite`
+--
+ALTER TABLE `specialite`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `stagehistoric`
+--
+ALTER TABLE `stagehistoric`
+  ADD PRIMARY KEY (`idStage`),
+  ADD KEY `fk_idElv` (`idElv`),
+  ADD KEY `fk_idTuteur` (`idTuteur`),
+  ADD KEY `idProf` (`idProf`);
+
+--
+-- Index pour la table `stagesapourvoir`
+--
+ALTER TABLE `stagesapourvoir`
+  ADD PRIMARY KEY (`idStage`),
+  ADD KEY `idEtp` (`idEtp`);
+
+--
+-- Index pour la table `tuteur`
+--
+ALTER TABLE `tuteur`
+  ADD PRIMARY KEY (`idTut`),
+  ADD KEY `idEtp` (`idEtp`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `compte`
+--
+ALTER TABLE `compte`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT pour la table `eleve`
+--
+ALTER TABLE `eleve`
+  MODIFY `idElv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT pour la table `entreprise`
+--
+ALTER TABLE `entreprise`
+  MODIFY `idEtp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT pour la table `professeur`
+--
+ALTER TABLE `professeur`
+  MODIFY `idProf` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT pour la table `specialite`
+--
+ALTER TABLE `specialite`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT pour la table `stagehistoric`
+--
+ALTER TABLE `stagehistoric`
+  MODIFY `idStage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT pour la table `stagesapourvoir`
+--
+ALTER TABLE `stagesapourvoir`
+  MODIFY `idStage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT pour la table `tuteur`
+--
+ALTER TABLE `tuteur`
+  MODIFY `idTut` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Contraintes pour les tables déchargées
@@ -372,7 +472,7 @@ ALTER TABLE `stagehistoric`
 -- Contraintes pour la table `stagesapourvoir`
 --
 ALTER TABLE `stagesapourvoir`
-  ADD CONSTRAINT `stagesapourvoir_ibfk_1` FOREIGN KEY (`idEtp`) REFERENCES `entreprise` (`idEtp`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_idEtp` FOREIGN KEY (`idEtp`) REFERENCES `entreprise` (`idEtp`);
 
 --
 -- Contraintes pour la table `tuteur`
