@@ -35,7 +35,8 @@ namespace ProjetGestion
             dataGridViewStages.Columns["nomProf"].HeaderText = "Professeur";
             dataGridViewStages.Columns["dateDebut"].HeaderText = "Début";
             dataGridViewStages.Columns["dateFin"].HeaderText = "Fin";
-            dataGridViewStages.Columns["NomPoste"].HeaderText = "Poste";
+            dataGridViewStages.Columns["NomPoste"].HeaderText = "Poste"; 
+            dataGridViewStages.Columns["EtatString"].HeaderText = "État";
         }
     }
 }

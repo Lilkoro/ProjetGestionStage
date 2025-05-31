@@ -16,7 +16,7 @@ namespace ProjetGestion
         public string Lieu { get; set; }
         public DateTime DateDebut { get; set; }
         public int DureeSemaines { get; set; }
-        public int IdEtp { get; set; }
+        public string nomEtp { get; set; }
     }
 
     public class Entreprise
@@ -86,6 +86,8 @@ namespace ProjetGestion
         public string NomProf { get; set; }
         public DateTime DateDebut { get; set; }
         public DateTime DateFin { get; set; }
+        public int etat { get; set; }
+        public string EtatString => etat == 0 ? "en cours" : "finis";
 
     }
 
@@ -261,7 +263,8 @@ namespace ProjetGestion
                             p.nomProf AS nomProf, 
                             sh.dateDebut, 
                             sh.dateFin, 
-                            sh.poste
+                            sh.poste,
+                            sh.etat
                         FROM stagehistoric sh
                         INNER JOIN tuteur t ON sh.idTuteur = t.idTut
                         INNER JOIN professeur p ON sh.idProf = p.idProf
@@ -289,7 +292,8 @@ namespace ProjetGestion
                                 string NomPoste = reader["poste"].ToString();
                                 DateTime DateDebut = reader.GetDateTime("dateDebut");
                                 DateTime DateFin = reader.GetDateTime("dateFin");
-                                stages.Add(new Stages { IdStage = IdStage, NomTuteur = NomTuteur,NomEntreprise = NomEntreprise, NomProf = NomProf, NomPoste = NomPoste, DateDebut = DateDebut, DateFin = DateFin});
+                                int etat = reader.GetInt32("etat");
+                                stages.Add(new Stages { IdStage = IdStage, NomTuteur = NomTuteur,NomEntreprise = NomEntreprise, NomProf = NomProf, NomPoste = NomPoste, DateDebut = DateDebut, DateFin = DateFin, etat = etat});
                             }
                         }
                     }
@@ -309,7 +313,7 @@ namespace ProjetGestion
                 using (MySqlConnection conn = getConnection())
                 {
                     conn.Open();
-                    string query = "SELECT * FROM stagesapourvoir";
+                    string query = "SELECT * FROM stagesapourvoir sp INNER JOIN entreprise e ON sp.idEtp = e.idEtp";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -323,7 +327,7 @@ namespace ProjetGestion
                                 Lieu = reader.IsDBNull(reader.GetOrdinal("lieu")) ? "" : reader["lieu"].ToString(),
                                 DateDebut = reader.GetDateTime("dateDebut"),
                                 DureeSemaines = reader.GetInt32("dureeSemaines"),
-                                IdEtp = reader.GetInt32("idEtp")
+                                nomEtp = reader["nomEtp"].ToString()
                             };
                             stages.Add(stage);
                         }

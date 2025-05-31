@@ -107,6 +107,7 @@
             this.btnRech.TabIndex = 8;
             this.btnRech.Text = "RECHERCHE DE STAGE";
             this.btnRech.UseVisualStyleBackColor = false;
+            this.btnRech.Click += new System.EventHandler(this.btnRech_Click);
             // 
             // btnStaEff
             // 

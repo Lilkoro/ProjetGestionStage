@@ -15,12 +15,20 @@ namespace ProjetGestion
         private void ChargerStages()
         {
             API api = new API();
-            var stages = api.GetStagesPourvoir();
+            List<StageAPourvoir> stages = api.GetStagesPourvoir();
 
             dataGridViewStages.DataSource = null;
+            dataGridViewStages.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridViewStages.Columns.Clear(); // éviter les doublons si tu recharges
-
             dataGridViewStages.DataSource = stages;
+
+            dataGridViewStages.Columns["IdStage"].HeaderText = "ID";
+            dataGridViewStages.Columns["Titre"].HeaderText = "Nom du poste";
+            dataGridViewStages.Columns["Description"].HeaderText = "Description";
+            dataGridViewStages.Columns["Lieu"].HeaderText = "Lieu";
+            dataGridViewStages.Columns["DateDebut"].HeaderText = "Date de debut";
+            dataGridViewStages.Columns["DureeSemaines"].HeaderText = "Durée du stage (semaines)";
+            dataGridViewStages.Columns["nomEtp"].HeaderText = "Nom de l'entreprise";
 
             DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
             btn.HeaderText = "Action";
@@ -34,15 +42,43 @@ namespace ProjetGestion
         public RechercheStage()
         {
             InitializeComponent();
+            dataGridViewStages.CellContentClick += dataGridViewStages_CellContentClick; // pour gérer le clic sur le bouton
         }
-        private void RechercheStageForm_Load(object sender, EventArgs e)
+        private void RechercheStage_Load(object sender, EventArgs e)
         {
             ChargerStages(); // tu crées cette méthode
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void btnLogOut_Click(object sender, EventArgs e)
         {
+            AccueilElv accueilElv = new AccueilElv();
+            this.Close();
+            accueilElv.ShowDialog();
+        }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ChargerStages(); // recharge les stages
+        }
+
+        private void dataGridViewStages_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Vérifie si c'est la colonne du bouton
+            if (dataGridViewStages.Columns[e.ColumnIndex].Name == "btnPostuler" && e.RowIndex >= 0)
+            {
+                var row = dataGridViewStages.Rows[e.RowIndex];
+
+                string id = row.Cells["IdStage"].Value?.ToString();
+                string titre = row.Cells["Titre"].Value?.ToString();
+                string description = row.Cells["Description"].Value?.ToString();
+                string lieu = row.Cells["Lieu"].Value?.ToString();
+                string dateDebut = row.Cells["DateDebut"].Value?.ToString();
+                string duree = row.Cells["DureeSemaines"].Value?.ToString();
+                string entreprise = row.Cells["nomEtp"].Value?.ToString();
+
+                string message = $"ID: {id}\nPoste: {titre}\nDescription: {description}\nLieu: {lieu}\nDate début: {dateDebut}\nDurée: {duree} semaines\nEntreprise: {entreprise}";
+                MessageBox.Show(message, "Détail de l'offre");
+            }
         }
     }
 }

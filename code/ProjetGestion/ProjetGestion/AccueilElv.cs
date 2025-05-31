@@ -59,5 +59,12 @@ namespace ProjetGestion
             this.Hide();
             stageEffectue.ShowDialog();
         }
+
+        private void btnRech_Click(object sender, EventArgs e)
+        {
+            RechercheStage rechercheForm = new RechercheStage();
+            this.Hide();
+            rechercheForm.ShowDialog();
+        }
     }
 }
