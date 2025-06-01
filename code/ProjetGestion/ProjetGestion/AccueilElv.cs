@@ -66,5 +66,12 @@ namespace ProjetGestion
             this.Hide();
             rechercheForm.ShowDialog();
         }
+
+        private void btnStaCo_Click(object sender, EventArgs e)
+        {
+            StagePostule stagePostule = new StagePostule();
+            this.Hide();
+            stagePostule.ShowDialog();
+        }
     }
 }

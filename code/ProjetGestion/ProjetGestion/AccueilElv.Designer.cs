@@ -95,6 +95,7 @@
             this.btnStaCo.TabIndex = 7;
             this.btnStaCo.Text = "MES CANDIDATURES";
             this.btnStaCo.UseVisualStyleBackColor = false;
+            this.btnStaCo.Click += new System.EventHandler(this.btnStaCo_Click);
             // 
             // btnRech
             // 

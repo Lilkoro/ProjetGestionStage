@@ -86,8 +86,19 @@ namespace ProjetGestion
         public string NomProf { get; set; }
         public DateTime DateDebut { get; set; }
         public DateTime DateFin { get; set; }
+        public string dureeSemaines { get; set; }
         public int etat { get; set; }
         public string EtatString => etat == 0 ? "en cours" : "finis";
+
+    }
+    public class StagesPostule
+    {
+        public int IdStage { get; set; }
+        public string NomEntreprise { get; set; }
+        public string NomPoste { get; set; }
+        public string NomTuteur { get; set; }
+        public DateTime DateDebut { get; set; }
+        public string dureeSemaines { get; set; }
 
     }
 
@@ -330,6 +341,100 @@ namespace ProjetGestion
                                 nomEtp = reader["nomEtp"].ToString()
                             };
                             stages.Add(stage);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return stages;
+        }
+
+        public bool isStageAlreadyApply(int idStage)
+        {
+            try
+            {
+                using (MySqlConnection conn = getConnection())
+                {
+                    conn.Open();
+                    string query = "SELECT COUNT(*) FROM stagecandidature WHERE idStage = @idStage AND idElv = @idElv";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@idStage", idStage);
+                        cmd.Parameters.AddWithValue("@idElv", Session.IdUtilisateur);
+                        int count = Convert.ToInt32(cmd.ExecuteScalar());
+                        return count > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        public bool UserApply (int idStage) {
+            try
+            {
+                using (MySqlConnection conn = getConnection())
+                {
+                    conn.Open();
+                    string query = "INSERT INTO stagecandidature (idStage, idElv) VALUES (@idStage, @idElv)";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@idStage", idStage);
+                        cmd.Parameters.AddWithValue("@idElv", Session.IdUtilisateur);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        return rowsAffected > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        public List<StagesPostule> getStagesByStudent() {
+            List<StagesPostule> stages = new List<StagesPostule>();
+            try
+            {
+                using (MySqlConnection conn = getConnection())
+                {
+                    conn.Open();
+                    string query = @"
+                        SELECT 
+                            sp.idStage,
+                            e.nomEtp AS nomEntreprise,
+                            t.nomTut AS nomTut, 
+                            sp.dateDebut, 
+                            sp.dureeSemaines, 
+                            sp.titre
+                        FROM stagecandidature sc
+                        INNER JOIN stagesapourvoir sp ON sc.idStage = sp.idStage
+                        INNER JOIN tuteur t ON sp.idTut = t.idTut
+                        INNER JOIN professeur p ON sp.idProf = p.idProf
+                        INNER JOIN entreprise e ON t.idEtp = e.idEtp
+                        WHERE sc.idElv = @idElv";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@idElv", Session.IdUtilisateur);
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int IdStage = reader.GetInt32("idStage");
+                                string NomTuteur = reader["nomTut"].ToString();
+                                string NomEntreprise = reader["nomEntreprise"].ToString();
+                                string NomPoste = reader["titre"].ToString();
+                                DateTime DateDebut = reader.GetDateTime("dateDebut");
+                                string dureeSemaines = reader["dureeSemaines"].ToString();
+                                stages.Add(new StagesPostule { IdStage = IdStage, NomTuteur = NomTuteur, NomEntreprise = NomEntreprise, NomPoste = NomPoste, DateDebut = DateDebut, dureeSemaines = dureeSemaines });
+                            }
                         }
                     }
                 }

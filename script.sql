@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : sam. 31 mai 2025 à 23:52
+-- Généré le : dim. 01 juin 2025 à 14:53
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.0.30
 
@@ -236,6 +236,25 @@ INSERT INTO `specialite` (`id`, `nom`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `stagecandidature`
+--
+
+CREATE TABLE `stagecandidature` (
+  `idStage` int(11) NOT NULL,
+  `idElv` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `stagecandidature`
+--
+
+INSERT INTO `stagecandidature` (`idStage`, `idElv`) VALUES
+(1, 5),
+(2, 5);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `stagehistoric`
 --
 
@@ -275,19 +294,21 @@ CREATE TABLE `stagesapourvoir` (
   `lieu` varchar(100) DEFAULT NULL,
   `dateDebut` date DEFAULT NULL,
   `dureeSemaines` int(11) DEFAULT NULL,
-  `idEtp` int(11) DEFAULT NULL
+  `idEtp` int(11) DEFAULT NULL,
+  `idProf` int(11) DEFAULT NULL,
+  `idTut` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `stagesapourvoir`
 --
 
-INSERT INTO `stagesapourvoir` (`idStage`, `titre`, `description`, `lieu`, `dateDebut`, `dureeSemaines`, `idEtp`) VALUES
-(1, 'Développeur .NET Junior', 'Participation à un projet en C# avec Windows Forms.', 'Marseille', '2025-06-10', 6, 1),
-(2, 'Technicien Réseau', 'Configuration de routeurs/switchs en PME.', 'Aix-en-Provence', '2025-07-01', 8, 4),
-(3, 'Assistant Cybersécurité', 'Analyse des failles et tests de vulnérabilité.', 'Avignon', '2025-06-20', 5, 5),
-(4, 'Développeur Full-Stack', 'Création de la boutique en ligne', 'Paris 2eme', '2025-06-01', 3, 5),
-(5, 'Technicien support informatique', 'Aide au support ticket et réseaux', 'Ajaccio', '2025-06-08', 6, 2);
+INSERT INTO `stagesapourvoir` (`idStage`, `titre`, `description`, `lieu`, `dateDebut`, `dureeSemaines`, `idEtp`, `idProf`, `idTut`) VALUES
+(1, 'Développeur .NET Junior', 'Participation à un projet en C# avec Windows Forms.', 'Marseille', '2025-06-10', 6, 1, 3, 2),
+(2, 'Technicien Réseau', 'Configuration de routeurs/switchs en PME.', 'Aix-en-Provence', '2025-07-01', 8, 4, 4, 5),
+(3, 'Assistant Cybersécurité', 'Analyse des failles et tests de vulnérabilité.', 'Avignon', '2025-06-20', 5, 5, 5, 3),
+(4, 'Développeur Full-Stack', 'Création de la boutique en ligne', 'Paris 2eme', '2025-06-01', 3, 5, 9, 3),
+(5, 'Technicien support informatique', 'Aide au support ticket et réseaux', 'Ajaccio', '2025-06-08', 6, 2, 3, 4);
 
 -- --------------------------------------------------------
 
@@ -367,6 +388,13 @@ ALTER TABLE `specialite`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `stagecandidature`
+--
+ALTER TABLE `stagecandidature`
+  ADD PRIMARY KEY (`idStage`,`idElv`),
+  ADD KEY `idElv` (`idElv`);
+
+--
 -- Index pour la table `stagehistoric`
 --
 ALTER TABLE `stagehistoric`
@@ -380,7 +408,9 @@ ALTER TABLE `stagehistoric`
 --
 ALTER TABLE `stagesapourvoir`
   ADD PRIMARY KEY (`idStage`),
-  ADD KEY `idEtp` (`idEtp`);
+  ADD KEY `idEtp` (`idEtp`),
+  ADD KEY `idProf` (`idProf`),
+  ADD KEY `fk_idTut` (`idTut`);
 
 --
 -- Index pour la table `tuteur`
@@ -461,6 +491,12 @@ ALTER TABLE `intervenir`
   ADD CONSTRAINT `fk_IdProf` FOREIGN KEY (`idProf`) REFERENCES `professeur` (`idProf`);
 
 --
+-- Contraintes pour la table `stagecandidature`
+--
+ALTER TABLE `stagecandidature`
+  ADD CONSTRAINT `stagecandidature_ibfk_1` FOREIGN KEY (`idElv`) REFERENCES `eleve` (`idElv`);
+
+--
 -- Contraintes pour la table `stagehistoric`
 --
 ALTER TABLE `stagehistoric`
@@ -472,7 +508,9 @@ ALTER TABLE `stagehistoric`
 -- Contraintes pour la table `stagesapourvoir`
 --
 ALTER TABLE `stagesapourvoir`
-  ADD CONSTRAINT `fk_idEtp` FOREIGN KEY (`idEtp`) REFERENCES `entreprise` (`idEtp`);
+  ADD CONSTRAINT `fk_idEtp` FOREIGN KEY (`idEtp`) REFERENCES `entreprise` (`idEtp`),
+  ADD CONSTRAINT `fk_idTut` FOREIGN KEY (`idTut`) REFERENCES `tuteur` (`idTut`),
+  ADD CONSTRAINT `stagesapourvoir_ibfk_1` FOREIGN KEY (`idProf`) REFERENCES `professeur` (`idProf`);
 
 --
 -- Contraintes pour la table `tuteur`

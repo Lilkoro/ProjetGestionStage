@@ -131,6 +131,12 @@
     <Compile Include="StageEffectue.Designer.cs">
       <DependentUpon>StageEffectue.cs</DependentUpon>
     </Compile>
+    <Compile Include="StagePostule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StagePostule.Designer.cs">
+      <DependentUpon>StagePostule.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AccueilElv.resx">
       <DependentUpon>AccueilElv.cs</DependentUpon>
     </EmbeddedResource>
@@ -154,6 +160,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="StageEffectue.resx">
       <DependentUpon>StageEffectue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StagePostule.resx">
+      <DependentUpon>StagePostule.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

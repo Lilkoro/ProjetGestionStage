@@ -28,6 +28,7 @@ namespace ProjetGestion
         {
             API API = new API();
             List<Stages> stages = API.GetStagesByUser(Session.IdUtilisateur);
+            dataGridViewStages.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridViewStages.DataSource = stages;
             dataGridViewStages.Columns["IdStage"].HeaderText = "ID";
             dataGridViewStages.Columns["nomTuteur"].HeaderText = "Tuteur";

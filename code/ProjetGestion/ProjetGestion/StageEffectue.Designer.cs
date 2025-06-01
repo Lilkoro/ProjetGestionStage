@@ -30,6 +30,7 @@
         {
             this.btnLogOut = new System.Windows.Forms.Button();
             this.dataGridViewStages = new System.Windows.Forms.DataGridView();
+            this.labTitre = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStages)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,10 +51,20 @@
             // 
             this.dataGridViewStages.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dataGridViewStages.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewStages.Location = new System.Drawing.Point(12, 60);
+            this.dataGridViewStages.Location = new System.Drawing.Point(12, 90);
             this.dataGridViewStages.Name = "dataGridViewStages";
-            this.dataGridViewStages.Size = new System.Drawing.Size(1149, 503);
+            this.dataGridViewStages.Size = new System.Drawing.Size(1149, 473);
             this.dataGridViewStages.TabIndex = 8;
+            // 
+            // labTitre
+            // 
+            this.labTitre.AutoSize = true;
+            this.labTitre.Font = new System.Drawing.Font("Arial", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labTitre.Location = new System.Drawing.Point(353, 9);
+            this.labTitre.Name = "labTitre";
+            this.labTitre.Size = new System.Drawing.Size(514, 75);
+            this.labTitre.TabIndex = 9;
+            this.labTitre.Text = "Stages Effectué";
             // 
             // StageEffectue
             // 
@@ -61,6 +72,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1173, 575);
+            this.Controls.Add(this.labTitre);
             this.Controls.Add(this.dataGridViewStages);
             this.Controls.Add(this.btnLogOut);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -70,6 +82,7 @@
             this.Load += new System.EventHandler(this.StageEffectue_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStages)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -77,5 +90,6 @@
 
         private System.Windows.Forms.Button btnLogOut;
         private System.Windows.Forms.DataGridView dataGridViewStages;
+        private System.Windows.Forms.Label labTitre;
     }
 }

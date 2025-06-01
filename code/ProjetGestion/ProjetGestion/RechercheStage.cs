@@ -19,7 +19,7 @@ namespace ProjetGestion
 
             dataGridViewStages.DataSource = null;
             dataGridViewStages.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewStages.Columns.Clear(); // éviter les doublons si tu recharges
+            dataGridViewStages.Columns.Clear();
             dataGridViewStages.DataSource = stages;
 
             dataGridViewStages.Columns["IdStage"].HeaderText = "ID";
@@ -35,7 +35,6 @@ namespace ProjetGestion
             btn.Text = "Postuler";
             btn.UseColumnTextForButtonValue = true;
             btn.Name = "btnPostuler";
-
             dataGridViewStages.Columns.Add(btn);
         }
 
@@ -52,7 +51,7 @@ namespace ProjetGestion
         private void btnLogOut_Click(object sender, EventArgs e)
         {
             AccueilElv accueilElv = new AccueilElv();
-            this.Close();
+            this.Hide();
             accueilElv.ShowDialog();
         }
 
@@ -66,18 +65,27 @@ namespace ProjetGestion
             // Vérifie si c'est la colonne du bouton
             if (dataGridViewStages.Columns[e.ColumnIndex].Name == "btnPostuler" && e.RowIndex >= 0)
             {
-                var row = dataGridViewStages.Rows[e.RowIndex];
+                API api = new API();
+                bool isPostulated = api.UserApply(Convert.ToInt32(dataGridViewStages.Rows[e.RowIndex].Cells["IdStage"].Value));
+                if (isPostulated)
+                {
 
-                string id = row.Cells["IdStage"].Value?.ToString();
-                string titre = row.Cells["Titre"].Value?.ToString();
-                string description = row.Cells["Description"].Value?.ToString();
-                string lieu = row.Cells["Lieu"].Value?.ToString();
-                string dateDebut = row.Cells["DateDebut"].Value?.ToString();
-                string duree = row.Cells["DureeSemaines"].Value?.ToString();
-                string entreprise = row.Cells["nomEtp"].Value?.ToString();
+                    var row = dataGridViewStages.Rows[e.RowIndex];
+                    string id = row.Cells["IdStage"].Value?.ToString();
+                    string titre = row.Cells["Titre"].Value?.ToString();
+                    string description = row.Cells["Description"].Value?.ToString();
+                    string lieu = row.Cells["Lieu"].Value?.ToString();
+                    string dateDebut = row.Cells["DateDebut"].Value?.ToString();
+                    string duree = row.Cells["DureeSemaines"].Value?.ToString();
+                    string entreprise = row.Cells["nomEtp"].Value?.ToString();
 
-                string message = $"ID: {id}\nPoste: {titre}\nDescription: {description}\nLieu: {lieu}\nDate début: {dateDebut}\nDurée: {duree} semaines\nEntreprise: {entreprise}";
-                MessageBox.Show(message, "Détail de l'offre");
+                    string message = $"ID: {id}\nPoste: {titre}\nDescription: {description}\nLieu: {lieu}\nDate début: {dateDebut}\nDurée: {duree} semaines\nEntreprise: {entreprise}";
+                    MessageBox.Show(message, "Détail de l'offre");
+                }
+                else
+                {
+                    MessageBox.Show("Vous avez déjà postulé à cette offre.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
     }
